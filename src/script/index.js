@@ -1,12 +1,10 @@
-import getWeatherData from './getWeatherInfo';
 import '../style/style.css';
+import searchFormSubmit from './eventHandling';
+import { createInitialPage } from './dom';
 
-const userSearch = document.querySelector('.search-city');
-const submitBtn = document.querySelector('.submit-btn');
+createInitialPage();
 
-submitBtn.addEventListener('click', () => {
-  const location = userSearch.value;
-  getWeatherData(location).then((response) => {
-    console.log(response);
-  });
-});
+const events = (() => {
+  const submitBtn = document.querySelector('.search-btn');
+  submitBtn.addEventListener('click', searchFormSubmit);
+})();
