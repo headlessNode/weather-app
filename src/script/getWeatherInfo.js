@@ -12,6 +12,7 @@ function getWeatherData(location) {
       }
     })
     .then((weatherData) => {
+      console.log(weatherData);
       const date = new Date(weatherData.location.localtime_epoch * 1000);
       const year = date.getFullYear() - 2000;
       const month = date.getMonth();
@@ -19,6 +20,8 @@ function getWeatherData(location) {
       const day = date.getDay();
       const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      const dayTime = weatherData.current.is_day === 1 ? 'yes' : 'no';
 
       const tomorrowForecastDate = new Date(weatherData.forecast.forecastday[1].date_epoch * 1000);
       const tomorrowDate = `${tomorrowForecastDate.getDate()} ${months[tomorrowForecastDate.getMonth()]} ${year}`;
@@ -35,6 +38,8 @@ function getWeatherData(location) {
             tempC: weatherData.current.temp_c,
             tempF: weatherData.current.temp_f,
             humidity: weatherData.current.humidity,
+            feelsLike: weatherData.current.feelslike_c,
+            windKph: weatherData.current.wind_kph,
           },
         },
         forecast: {
@@ -56,6 +61,7 @@ function getWeatherData(location) {
           country: weatherData.location.country,
           localDate: `${dayDate} ${months[month]} ${year}`,
           localDay: `${weekday[day]}`,
+          isDay: dayTime,
         },
       };
 
