@@ -12,7 +12,6 @@ function getWeatherData(location) {
       }
     })
     .then((weatherData) => {
-      console.log(weatherData);
       const date = new Date(weatherData.location.localtime_epoch * 1000);
       const year = date.getFullYear() - 2000;
       const month = date.getMonth();

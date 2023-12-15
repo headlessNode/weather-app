@@ -3,6 +3,11 @@ import HumidityIcon from '../images/humidityIcon.svg';
 import WindIcon from '../images/windIcon.svg';
 import FahrenheitIcon from '../images/fahrenheit.svg';
 
+export function invalidLocation() {
+  const search = document.querySelector('.search-city');
+  alert(`${search.value} doesnot exist`);
+}
+
 function addCurrentWeatherDetails(weatherInfo) {
   const temperature = document.createElement('p');
   temperature.setAttribute('class', 'temperature');
@@ -168,7 +173,6 @@ function changeSceneBackground(weatherInfo) {
 }
 
 export function createWeatherCard(weatherInfo) {
-  console.log(weatherInfo);
   removeWeatherCard();
   changeSceneBackground(weatherInfo);
   const weatherCardContainer = document.querySelector('.card-container');
