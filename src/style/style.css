@@ -5,12 +5,40 @@
     font-family: 'Dongle', sans-serif;
 }
 
+.scene-container{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.scene{
+    position:fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    object-fit:cover;
+    bottom: 0%;    
+}
+
 .day{
     background: linear-gradient(to bottom left, #A4CFC7 0%, #7BC3CA 30%, #D9E1CE 60%, #D5C4AF 100%);
 }
 
 .night{
     background: linear-gradient(to bottom left, #0F1C2E 0%, #1E3358 25%, #324D81 50%, #466BAA 100%);
+}
+
+.card-container{
+    color: white;
+    position:absolute;
+    z-index: 2;
+    bottom: 0%;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: 4rem 1fr;
 }
 
 .search-container{
@@ -46,35 +74,6 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     opacity: 0.7;
-}
-
-.scene-container{
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    overflow: auto;
-}
-
-.scene{
-    position:fixed;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    object-fit:cover;
-    bottom: 0%;    
-}
-
-.card-container{
-    color: white;
-    position:absolute;
-    z-index: 2;
-    bottom: 0%;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    justify-items: center;
-    grid-template-rows: 4rem 1fr;
-    gap: 10px;
 }
 
 .weather-card{
