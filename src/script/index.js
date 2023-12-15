@@ -7,6 +7,9 @@ const defaultLocation = 'London';
 getWeatherData(defaultLocation).then((weatherInfo) => {
   createInitialPage(weatherInfo);
 }).then(() => {
-  const submitBtn = document.querySelector('.search-btn');
-  submitBtn.addEventListener('click', searchFormSubmit);
+  const searchForm = document.querySelector('.search-container');
+  searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    searchFormSubmit();
+  });
 });
