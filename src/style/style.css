@@ -148,7 +148,7 @@
 .weather-card .card-header{
     display: grid;
     grid-template-rows: 2rem 6rem;
-    margin-bottom: 10px;
+    gap: 10px;
 }
 
 .card-header .region{
