@@ -67,7 +67,7 @@
 
 .card-container{
     color: white;
-    position:absolute;
+    position:relative;
     z-index: 2;
     bottom: 0%;
     width: 100%;
@@ -148,6 +148,7 @@
 .weather-card .card-header{
     display: grid;
     grid-template-rows: 2rem 6rem;
+    margin-bottom: 10px;
 }
 
 .card-header .region{
