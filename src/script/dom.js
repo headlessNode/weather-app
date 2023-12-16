@@ -2,10 +2,20 @@ import Image from '../images/sky.png';
 import HumidityIcon from '../images/humidityIcon.svg';
 import WindIcon from '../images/windIcon.svg';
 import FahrenheitIcon from '../images/fahrenheit.svg';
+import getWeatherData from './getWeatherInfo';
 
-export function invalidLocation() {
-  const search = document.querySelector('.search-city');
-  alert(`${search.value} doesnot exist`);
+export function addLoadingAnim() {
+  const weatherCardContainer = document.querySelector('.card-container');
+  const animationContainer = document.createElement('div');
+  animationContainer.setAttribute('class', 'anim-container');
+  animationContainer.innerHTML = '<svg height="100%" width="100%" viewBox="0 0 500 500"><circle id="spinner" style="stroke-width: 7px; stroke-linecap: round; fill: none; stroke: rgb(230,158,143);" cx="250" cy="250" r="30"></circle></svg>';
+  weatherCardContainer.appendChild(animationContainer);
+}
+
+export function removeLoadingAnim() {
+  const weatherCardContainer = document.querySelector('.card-container');
+  const animationContainer = document.querySelector('.anim-container');
+  weatherCardContainer.removeChild(animationContainer);
 }
 
 function addCurrentWeatherDetails(weatherInfo) {
@@ -148,7 +158,7 @@ function addForecastDetails(weatherInfo) {
   return { tomorrowForecast, dayAfterTomorrow };
 }
 
-function removeWeatherCard() {
+export function removeWeatherCard() {
   const weatherCardContainer = document.querySelector('.card-container');
   if (weatherCardContainer.classList.contains('card-present')) {
     weatherCardContainer.classList.toggle('card-present');
@@ -158,29 +168,35 @@ function removeWeatherCard() {
 }
 
 function changeSceneBackground(weatherInfo) {
-  const sceneContainer = document.querySelector('.scene-container');
+  const scene = document.querySelector('.scene');
   if (weatherInfo.region.isDay === 'yes') {
-    if (sceneContainer.classList.contains('night')) {
-      sceneContainer.classList.remove('night');
+    if (scene.classList.contains('night')) {
+      scene.classList.remove('night');
     }
-    sceneContainer.classList.add('day');
+    scene.classList.add('day');
   } else {
-    if (sceneContainer.classList.contains('day')) {
-      sceneContainer.classList.remove('day');
+    if (scene.classList.contains('day')) {
+      scene.classList.remove('day');
     }
-    sceneContainer.classList.add('night');
+    scene.classList.add('night');
   }
 }
 
 export function createWeatherCard(weatherInfo) {
+  const weatherCardContainer = document.querySelector('.card-container');
   removeWeatherCard();
   changeSceneBackground(weatherInfo);
-  const weatherCardContainer = document.querySelector('.card-container');
+
   weatherCardContainer.classList.toggle('card-present');
   const weatherCard = document.createElement('div');
   weatherCard.setAttribute('class', 'weather-card');
 
   const currentWeatherDetails = addCurrentWeatherDetails(weatherInfo);
+
+  const cardHeader = document.createElement('div');
+  cardHeader.setAttribute('class', 'card-header');
+  cardHeader.appendChild(currentWeatherDetails.region);
+  cardHeader.appendChild(currentWeatherDetails.temperature);
 
   const forecastDetails = document.createElement('div');
   forecastDetails.setAttribute('class', 'forecast-details');
@@ -189,28 +205,62 @@ export function createWeatherCard(weatherInfo) {
   forecastDetails.appendChild(forecast.tomorrowForecast);
   forecastDetails.appendChild(forecast.dayAfterTomorrow);
 
-  weatherCard.appendChild(currentWeatherDetails.temperature);
+  weatherCard.appendChild(cardHeader);
   weatherCard.appendChild(currentWeatherDetails.icon);
   weatherCard.appendChild(currentWeatherDetails.weather);
-  weatherCard.appendChild(currentWeatherDetails.region);
   weatherCard.appendChild(currentWeatherDetails.currentDay);
   weatherCard.appendChild(forecastDetails);
 
   weatherCardContainer.appendChild(weatherCard);
 }
 
-export function createInitialPage(weatherInfo) {
-  // const wrapper = document.querySelector('.wrapper');
+export function resetToDefaultCard() {
+  const defaultLocation = 'London';
+  getWeatherData(defaultLocation).then((response) => {
+    removeLoadingAnim();
+    createWeatherCard(response);
+  });
+}
 
-  const sceneContainer = document.createElement('div');
-  sceneContainer.setAttribute('class', 'scene-container');
-  document.body.appendChild(sceneContainer);
-  changeSceneBackground(weatherInfo);
+export function invalidLocation() {
+  const search = document.querySelector('.search-city');
+  if (search.value === '') {
+    alert('Search bar cannot be empty');
+  } else {
+    alert(`${search.value} doesnot exist`);
+  }
+  resetToDefaultCard();
+}
+
+export function initialPageLoader() {
+  const sceneContainer = document.querySelector('.scene-container');
+  const loader = document.createElement('loader');
+  loader.setAttribute('class', 'loader');
+  const loadingContainer = document.createElement('div');
+  loadingContainer.setAttribute('class', 'loading-container');
+  const loadingAnim = document.createElement('h1');
+  loadingAnim.setAttribute('class', 'loading-anim');
+  loadingAnim.textContent = 'Loading . . .';
+
+  loadingContainer.appendChild(loadingAnim);
+  loader.appendChild(loadingContainer);
+
+  sceneContainer.appendChild(loader);
+}
+
+export function removeInitialPageLoader() {
+  const sceneContainer = document.querySelector('.scene-container');
+  const loader = document.querySelector('.loader');
+  sceneContainer.removeChild(loader);
+}
+
+export function createInitialPage(weatherInfo) {
+  const sceneContainer = document.querySelector('.scene-container');
   const img = document.createElement('img');
   img.setAttribute('src', Image);
   img.setAttribute('class', 'scene');
-
   sceneContainer.appendChild(img);
+  changeSceneBackground(weatherInfo);
 
   const weatherCardContainer = document.createElement('div');
   weatherCardContainer.setAttribute('class', 'card-container');
