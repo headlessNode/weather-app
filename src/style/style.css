@@ -6,9 +6,32 @@
 }
 
 .scene-container{
-    position: relative;
+    position: absolute;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+}   
+
+.scene-container .loader{
+    display: grid;
+    background-image: linear-gradient(to bottom left, #30cfd0 0%, #330867 100%);
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-items: center;
+}
+
+.loader .loading-container{
+    height: 100px;
+    width: 100px;
+}
+
+.loading-container .loading-anim{
+    overflow: hidden;
+    white-space: nowrap;
+    animation-name: loading-animation;
+    animation-duration: 800ms;
+    animation-timing-function: steps(40, end);
+    animation-iteration-count: infinite;
 }
 
 .scene{
@@ -22,10 +45,24 @@
 
 .day{
     background: linear-gradient(to bottom left, #A4CFC7 0%, #7BC3CA 30%, #D9E1CE 60%, #D5C4AF 100%);
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
 }
 
 .night{
     background: linear-gradient(to bottom left, #0F1C2E 0%, #1E3358 25%, #324D81 50%, #466BAA 100%);
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
 }
 
 .card-container{
@@ -39,6 +76,22 @@
     justify-items: center;
     align-items: center;
     grid-template-rows: 4rem 1fr;
+}
+
+.anim-container{
+    width: 100%;
+    height: 300px;
+    background: transparent;
+    display: grid;
+    justify-items: center;
+}
+
+#spinner{
+    transform-origin: center;
+    animation-name: anim-spin;
+    animation-duration: 800ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
 .search-container{
@@ -66,7 +119,7 @@
 
 .search-btn{
     cursor: pointer;
-    width: 50px;
+    width: 2rem;
     height: 100%;
     border: none;
     background: white;
@@ -83,10 +136,30 @@
     justify-items: center;
     align-items: center;
     gap: 10px;
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    padding-bottom: 20px;
 }
 
-.weather-card .temperature{
+.weather-card .card-header{
+    display: grid;
+    grid-template-rows: 2rem 6rem;
+}
+
+.card-header .region{
+    font-size: 2rem;
+    grid-row: 1/2;
+    text-align: center;
+}
+
+.card-header .temperature{
     font-size: 6rem;
+    grid-row: 2/3;
+    text-align: center;
 }
 
 .weather-card .icon{
@@ -97,13 +170,16 @@
 
 .weather-card .weather{
     font-size: 3rem;
-    grid-row: 3/4;
     width: 100%;
     text-align: center;
     display: grid;
     grid-template-rows: 2rem 1fr;
     align-items: center;
     gap: 1rem;
+}
+
+.weather-card .current-day{
+    font-size: 2rem;
 }
 
 .weather .crnt-weather-details{
@@ -135,16 +211,6 @@
     justify-items: center;
 }
 
-.weather-card .region{
-    font-size: 1.5rem;
-    grid-row: 4/5;
-}
-
-.weather-card .current-day{
-    font-size: 1.5rem;
-    grid-row: 5/6;
-}
-
 .weather-card .forecast-details{
     width: 100%;
     height: 100%;
@@ -171,4 +237,36 @@
         width: 100%;
     }
 }
-  
+
+@keyframes fade-in {
+    to{
+        opacity: 1;
+    }
+}
+@keyframes anim-spin {
+    0%{
+        stroke-dasharray: 1 98;
+        stroke-dashoffset: -100;
+    }
+    50%{
+        stroke-dasharray: 80 10;
+        stroke-dashoffset: -160;
+    }
+    100%{
+        stroke-dasharray: 1 98;
+        stroke-dashoffset: -300;
+    }
+}
+
+@keyframes loading-animation {
+    from{
+        width: 80px;
+        /* opacity: 0; */
+        /* transform: scale(1); */
+    }
+    to{
+        width: 109px;
+        /* opacity: 1; */
+        /* transform: scale(1.2); */
+    }
+}
